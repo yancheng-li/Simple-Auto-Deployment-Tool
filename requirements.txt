@@ -90,10 +90,10 @@ install:
 	pip install -r requirements.txt
 
 test:
-	python english_version.py --test
+	python final_version.py --test
 
 demo:
-	python english_version.py --demo
+	python final_version.py --demo
 
 clean:
 	rm -rf deployment_*/
