@@ -1,0 +1,148 @@
+# requirements.txt
+requests>=2.25.0
+
+# .gitignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated deployment directories
+deployment_*/
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Docker
+*.tar
+
+# Logs
+*.log
+
+# setup.py (optional, for package installation)
+from setuptools import setup, find_packages
+
+setup(
+    name="simple-auto-deployment-tool",
+    version="1.0.0",
+    description="A simple auto deployment tool for new graduate developers",
+    author="Your Name",
+    author_email="your.email@example.com",
+    packages=find_packages(),
+    install_requires=[
+        "requests>=2.25.0",
+    ],
+    python_requires=">=3.7",
+    entry_points={
+        "console_scripts": [
+            "auto-deploy=english_version:main",
+        ],
+    },
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+    ],
+)
+
+# Makefile (optional, for convenience)
+.PHONY: install test demo clean
+
+install:
+	pip install -r requirements.txt
+
+test:
+	python english_version.py --test
+
+demo:
+	python english_version.py --demo
+
+clean:
+	rm -rf deployment_*/
+	rm -rf __pycache__/
+	rm -rf *.pyc
+
+run:
+	python english_version.py
+
+help:
+	@echo "Available commands:"
+	@echo "  make install  - Install dependencies"
+	@echo "  make test     - Run basic tests"
+	@echo "  make demo     - Run demo mode"
+	@echo "  make clean    - Clean generated files"
+	@echo "  make run      - Run interactive mode"
+
+# docker-dev.yml (for development environment)
+version: '3.8'
+
+services:
+  dev-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+# Dockerfile.dev (development container)
+FROM python:3.9-slim
+
+WORKDIR /workspace
+
+# Install development tools
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Install additional development tools
+RUN pip install pytest black flake8
+
+CMD ["/bin/bash"]
