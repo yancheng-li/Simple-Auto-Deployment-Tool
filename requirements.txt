@@ -101,7 +101,7 @@ clean:
 	rm -rf *.pyc
 
 run:
-	python english_version.py
+	python final_version.py
 
 help:
 	@echo "Available commands:"
