@@ -524,7 +524,7 @@ Examples:
                 print("Processing failed")
     else:
         # Interactive mode
-        main()__ == "__main__":
+        main()
     import sys
     
     if len(sys.argv) > 1:
