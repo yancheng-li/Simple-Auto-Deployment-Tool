@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Auto Deployment Tool - New Grad Version
-A simplified implementation showcasing core concepts rather than production-level complexity
+Auto Deployment Tool 
+A simplified implementation
 """
 
 import os
